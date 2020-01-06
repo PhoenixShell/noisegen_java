@@ -4,19 +4,18 @@ import java.util.Random;
 
 public class NoiseMap
 {
-	public static final int MODE_AMPINCREASE = 0;
-	public static final int MODE_AMPDECREASE = 1;
-	
-	private final NoiseConfig config;
+    public static final int MODE_AMPINCREASE = 0;
+    public static final int MODE_AMPDECREASE = 1;
+    private final NoiseConfig config;
     private NoiseAlgorithm[] octaves;
     private double[] frequencys;
     private double[] amplitudes;
-	private float originX;
-	private float originY;
+    private float originX;
+    private float originY;
 	
-	private float maxAmp;
+    private float maxAmp;
 	
-	private int mode;
+    private int mode;
     
     public NoiseMap(int octaves, double persist, int seed, int mode){
     	this.config = new NoiseConfig(octaves, persist, seed);
@@ -27,7 +26,6 @@ public class NoiseMap
     	this.config = config;
     	update(this.mode);
     }
-    
     public void update(int mode) {
     	octaves=new SimplexNoise[config.numOctaves];
         frequencys=new double[config.numOctaves];
@@ -62,13 +60,11 @@ public class NoiseMap
         }
         this.maxAmp = countMaxAmp;
     }
-    
+  
     public void setOrigin(float originX, float originY) {
     	this.originX = originX;
     	this.originY = originY;
     }
-    
-    
     /*Reseeds the simplex map using the same config**/
     public void reseed(int seed) {
     	config.seed = seed;
@@ -77,8 +73,6 @@ public class NoiseMap
     public void setScale(float scale) {
     	config.scale = scale;
     }
-    	
-
     /**These methods take in the x & y coords and converts them too simplex noise*/
     public double get(double d, float y){
 
@@ -95,10 +89,8 @@ public class NoiseMap
         return result / maxAmp;
     }
     public double get(double x, double y, double z) {
-    	
-    	
         double result=0;
-
+	    
         for(int i=0;i<octaves.length;i++)
         {
         	double scaleFreq = config.scale * frequencys[i];
@@ -106,16 +98,11 @@ public class NoiseMap
         }
         return result / maxAmp;
     }
-    
-    
     public float getNormalNoise(float x, float y) {
     	float noise = (float) get(x, y);
     	return (noise + 1)/2;
     }
-
-	public float getModNoise(float x, float y) {
-		return (float) Math.abs(get(x,y));
-		
-	}
-
+    public float getModNoise(float x, float y) {
+       return (float) Math.abs(get(x,y));		
+    }
 } 
